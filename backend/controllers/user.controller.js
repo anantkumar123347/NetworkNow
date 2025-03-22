@@ -5,7 +5,9 @@ const bcrypt = require("bcrypt");
 const crypto=require('crypto');
 const PDFDocument=require('pdfkit')
 const axios = require('axios');
-const fs=require('fs')
+const fs=require('fs');
+const Post = require("../models/posts.model");
+const { use } = require("../routes/posts.route");
 const register = async (req, res) => {
     try {
         const { name, username, email, password } = req.body;

@@ -1,6 +1,6 @@
 const Post = require("../models/posts.model");
 const User = require("../models/user.model");
-
+const Comment=require("../models/comments.model")
 const basiccontroller = (req, res) => {
     try {
         res.status(200).json("Looks fine about routes");
@@ -43,12 +43,110 @@ const createPost = async (req, res) => {
         return res.status(500).json({ message: "Internal server error" });
     }
 };
-/*const getAllPosts=await (req,res)=>{
+const getAllPosts=async (req,res)=>{
     try{
-
+        const posts=await Post.find().populate('userId' , 'name username email profilePicture')
+        return res.json({posts})
     } catch (error) {
         console.error("Error in creating post:", error.message);
         return res.status(500).json({ message: "Internal server error" });
     }
-}*/
-module.exports = { basiccontroller, createPost };
+}
+const deletePost=async(req,res)=>{
+    try{
+        const {token , post_id}=req.body
+        const user = await User.findOne({ token }).select("_id");
+
+        if (!user) {
+            return res.status(404).json({ message: "User doesn't exist" });
+        }
+        const post=await Post.findOne({_id:post_id})
+        if(!post)
+        {
+            return res.status(404).json({message:"Post is not found"})
+        }
+        if(post.userId.toString()!==user._id.toString())
+        {
+            return res.status(404).json({message:"Unauthorized"})
+        }
+        await Post.deleteOne({_id:post_id})
+        return res.status(200).json({ message: "Post deleted successfully" });
+    } catch (error) {
+        console.error("Error in creating post:", error.message);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+}
+const get_comment_by_post=async(req,res)=>{
+    try{
+        const {post_id}=req.body
+        const post=await Post.findOne({_id:post_id})
+        if(!post)
+        {
+            return res.status(404).json({message:"Post is not found"})
+        }
+        const comments=await Comment.findOne({postId:post_id})
+        return res.status(200).json({comments});
+    } catch (error) {
+        console.error("Error in creating post:", error.message);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+}
+const delete_comment=async(req,res)=>{
+    try{
+        const {token , comment_id}=req.body
+        const user = await User.findOne({ token }).select("_id");
+
+        if (!user) {
+            return res.status(404).json({ message: "User doesn't exist" });
+        }
+        const comment=await Comment.findOne({_id:comment_id})
+        if(!comment)
+        {
+            return res.status(404).json({message:"Comment is not found"})
+        }
+        if(comment.userId.toString()!==user._id.toString())
+        {
+            return res.status(404).json({message:"Unauthorized"})
+        }
+        await Comment.deleteOne({_id:comment_id})
+        return res.status(200).json({ message: "Comment deleted successfully" });
+    } catch (error) {
+        console.error("Error in deleting comment:", error.message);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+}
+const commentPost=async(req,res)=>{
+    try{
+        const { token , post_id , commentbody } = req.body;
+        const user = await User.findOne({ token });
+        if (!user) return res.status(404).json({ message: "User not found" });
+        const post=await Post.findOne({_id:post_id})
+        if (!post) return res.status(404).json({ message: "Post not found" });
+        const comment=new Comment({
+            userId:user._id,
+            postId:post._id,
+            body:commentbody
+        })
+        await comment.save();
+        return res.status(200).json({message:"Comment saved"});
+    }catch (error) {
+        return res.status(500).json({ message: "Internal server error" });
+    }
+}
+const increment_likes=async(req,res)=>{
+    try{
+        const {post_id}=req.body
+        const post=await Post.findOne({_id:post_id})
+        if(!post)
+        {
+            return res.status(404).json({message:"Post is not found"})
+        }
+        post.likes=post.likes+1
+        await post.save()
+        return res.status(200).json({ message: "Likes incremented successfully" });
+    } catch (error) {
+        console.error("Error in deleting comment:", error.message);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+}
+module.exports = { basiccontroller, createPost , getAllPosts , deletePost , get_comment_by_post , commentPost , delete_comment , increment_likes};
