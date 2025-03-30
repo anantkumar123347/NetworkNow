@@ -37,27 +37,32 @@ const register = async (req, res) => {
 };
 const login = async (req, res) => {
     try {
-        const {email, password } = req.body;
+        const { email, password } = req.body;
         if (!email || !password) {
-            return res.status(400).json({ message: "Send all fields" });
+            return res.status(400).json({ success: false, message: "Send all fields" });
         }
         const doesExist = await User.findOne({ email });
         if (!doesExist) {
-            return res.status(404).json({ message: "User doesn't exists" });
+            return res.status(404).json({ success: false, message: "User doesn't exist" });
         }
-        const ismatch=await bcrypt.compare(password,doesExist.password)
-        if(!ismatch)
-        {
-            return res.status(400).json({ message: "Invalid credentials" });
+        const isMatch = await bcrypt.compare(password, doesExist.password);
+        if (!isMatch) {
+            return res.status(400).json({ success: false, message: "Invalid credentials" });
         }
-        const token=crypto.randomBytes(32).toString('hex')
-        await User.updateOne({_id:doesExist._id},{token})
-        return res.status(200).json({ token });
+        const token = crypto.randomBytes(32).toString('hex');
+        await User.updateOne({ _id: doesExist._id }, { token });
+        return res.status(200).json({ 
+            success: true, 
+            message: "Login successful", 
+            token 
+        });
+
     } catch (error) {
-        console.error("Error in registration:", error.message);
-        return res.status(500).json({ message: "Internal server error" });
+        console.error("Error in login:", error.message);
+        return res.status(500).json({ success: false, message: "Internal server error" });
     }
 };
+
 const updateProfilePicture = async (req, res) => {
     try {
         if (!req.file) {

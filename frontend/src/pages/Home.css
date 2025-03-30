@@ -1,0 +1,79 @@
+.maindiv {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 80px 100px;
+    gap: 20px;
+  }
+  
+  .leftdiv {
+    flex: 1;
+  }
+  
+  .leftdiv h1 {
+    font-size: 50px;
+    font-weight: 900;
+    line-height: 1.2;
+  }
+  
+  .leftdiv h3 {
+    font-size: 22px;
+    font-weight: 500;
+    color: gray;
+    margin-top: 10px;
+  }
+  
+  .leftdiv button {
+    margin-top: 20px;
+    padding: 14px 24px;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(45deg, #ff00cc, #3333ff);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .leftdiv button:hover {
+    background: linear-gradient(45deg, #ff3399, #0000ff);
+    transform: scale(1.05);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .rightdiv {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .rightdiv img {
+    width: 100%;
+    max-width: 500px;
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  @media (max-width: 768px) {
+    .maindiv {
+      flex-direction: column;
+      text-align: center;
+      padding: 30px;
+    }
+  
+    .rightdiv img {
+      width: 80%;
+    }
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
