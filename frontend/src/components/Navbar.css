@@ -1,0 +1,46 @@
+.navbar {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 15px 20px;
+  font-family: Arial, sans-serif;
+  background-color: white;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar h1 {
+  font-size: 24px;
+  margin: 0;
+}
+.navbar-buttons {
+  display: flex;
+  gap: 15px;
+  margin-left: auto;
+}
+.navbar-buttons button {
+  background: linear-gradient(45deg, #ff00cc, #3333ff);
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.navbar-buttons button:hover {
+  background: linear-gradient(45deg, #ff3399, #0000ff);
+  transform: scale(1.05);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.navbar-buttons .logout {
+  background: linear-gradient(45deg, #ff4b2b, #ff416c);
+}
+
+.navbar-buttons .logout:hover {
+  background: linear-gradient(45deg, #ff1e00, #ff0066);
+}

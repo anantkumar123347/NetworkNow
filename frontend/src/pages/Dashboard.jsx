@@ -1,9 +1,21 @@
-import React from 'react'
+import React from "react";
+import { Outlet } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import Sidebar from "../components/Sidebar";
+import RightSidebar from "../components/RightSideBar";
+import "./Dashboard.css";
 
 function Dashboard() {
   return (
-    <div>Dashboard</div>
-  )
+    <>
+      <Navbar />
+      <Sidebar />
+      <RightSidebar />
+      <div className="maindiv">
+        <Outlet />
+      </div>
+    </>
+  );
 }
 
-export default Dashboard
+export default Dashboard;

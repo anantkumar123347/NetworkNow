@@ -1,0 +1,10 @@
+.maindiv {
+  margin: 0 auto;
+  width: 70%;
+  padding: 20px;
+  min-height: calc(100vh - 60px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}

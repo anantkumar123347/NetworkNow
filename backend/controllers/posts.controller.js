@@ -76,21 +76,24 @@ const deletePost=async(req,res)=>{
         return res.status(500).json({ message: "Internal server error" });
     }
 }
-const get_comment_by_post=async(req,res)=>{
-    try{
-        const {post_id}=req.body
-        const post=await Post.findOne({_id:post_id})
-        if(!post)
-        {
-            return res.status(404).json({message:"Post is not found"})
-        }
-        const comments=await Comment.findOne({postId:post_id})
-        return res.status(200).json({comments});
+const get_comment_by_post = async (req, res) => {
+    try {
+      const { post_id } = req.body;
+  
+      const post = await Post.findById(post_id);
+      if (!post) {
+        return res.status(404).json({ message: "Post not found" });
+      }
+  
+      const comments = await Comment.find({ postId: post_id }).populate("userId", "name profilePicture");
+  
+      return res.status(200).json({ comments });
     } catch (error) {
-        console.error("Error in creating post:", error.message);
-        return res.status(500).json({ message: "Internal server error" });
+      console.error("Error fetching comments:", error.message);
+      return res.status(500).json({ message: "Internal server error" });
     }
-}
+  };
+  
 const delete_comment=async(req,res)=>{
     try{
         const {token , comment_id}=req.body

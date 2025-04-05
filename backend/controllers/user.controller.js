@@ -104,6 +104,18 @@ const getUser = async (req, res) => {
         return res.status(500).json({ message: "Internal server error" });
     }
 };
+const getProfile = async (req, res) => {
+    const { token } = req.body;
+    try {
+      const user = await User.findOne({ token });
+      if (!user) return res.status(401).json({ msg: "Invalid token" });
+  
+      const profile = await Profile.findOne({ userId: user._id });
+      return res.status(200).json({ user, profile });
+    } catch (error) {
+      return res.status(500).json({ msg: "Server error", error });
+    }
+};
 const getAllUsers = async (req, res) => {
     try {
         const users = await User.find().select("-password");
@@ -115,7 +127,7 @@ const getAllUsers = async (req, res) => {
 };
 const updateUser = async (req, res) => {
     try {
-        const { name, username, email } = req.body;
+        const {token , name, username, email } = req.body;
 
         if (!token) {
             return res.status(400).json({ message: "Token is required" });
@@ -314,4 +326,4 @@ const acceptConnectionRequest=async(req,res)=>{
         return res.status(500).json({ message: "Internal server error" });
     }
 }
-module.exports = { register , login , updateProfilePicture , getUser , getAllUsers , updateUser , updateUserProfile , downloadProfile , sendConnectionRequest , getMyConnectionRequests , whatAreMyConnections , acceptConnectionRequest};
+module.exports = { register , login , updateProfilePicture , getUser , getProfile , getAllUsers , updateUser , updateUserProfile , downloadProfile , sendConnectionRequest , getMyConnectionRequests , whatAreMyConnections , acceptConnectionRequest};

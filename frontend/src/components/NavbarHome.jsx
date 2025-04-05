@@ -1,14 +1,18 @@
 import React from "react";
 import "./NavbarHome.css";
 import { useNavigate } from "react-router-dom";
+
 function NavbarHome() {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   return (
-    <nav>
-      <h1>Connect Now</h1>
-      <button onClick={()=>{
-        navigate('/register')
-      }}>Be a part</button>
+    <nav className="navbarHome">
+      <h1 className="navbarTitle">Connect Now</h1>
+      <button 
+        className="navbarButton" 
+        onClick={() => navigate("/register")}
+      >
+        Be a part
+      </button>
     </nav>
   );
 }

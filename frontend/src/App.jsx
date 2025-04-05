@@ -3,6 +3,8 @@ import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import Allposts from "./components/Allposts";
+import Profile from "./pages/Profile";
 
 const ProtectedRoute = ({ element }) => {
   const token = localStorage.getItem("token");
@@ -24,7 +26,10 @@ function App() {
         <Route path="/login" element={<PublicRoute element={<Login />} />} />
 
         {/* Protected Route for Dashboard (Only logged-in users can access) */}
-        <Route path="/dashboard" element={<ProtectedRoute element={<Dashboard />} />} />
+        <Route path="/dashboard" element={<ProtectedRoute element={<Dashboard />} />}>
+          <Route index element={<Allposts />} />
+          <Route path="profile" element={<Profile/>} /> 
+        </Route>
       </Routes>
     </Router>
   );

@@ -2,7 +2,7 @@ const express = require('express');
 const multer = require("multer");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const cloudinary = require('cloudinary').v2;
-const { register, login, updateProfilePicture , getUser , getAllUsers , updateUser , updateUserProfile , downloadProfile , sendConnectionRequest , getMyConnectionRequests , whatAreMyConnections , acceptConnectionRequest} = require('../controllers/user.controller');
+const { register, login, updateProfilePicture , getUser , getProfile , getAllUsers , updateUser , updateUserProfile , downloadProfile , sendConnectionRequest , getMyConnectionRequests , whatAreMyConnections , acceptConnectionRequest} = require('../controllers/user.controller');
 const router = express.Router();
 const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
@@ -17,6 +17,7 @@ router.post('/update_profile_picture', upload.single("image"), updateProfilePict
 router.post('/login', login);
 router.post('/user_update', updateUser);
 router.get('/get_user_and_profile',getUser)
+router.post('/getProfile',getProfile)
 router.get('/get_all_users',getAllUsers)
 router.post('/update_profile_data',updateUserProfile)
 router.get('/download_profile/:id', downloadProfile);

@@ -17,7 +17,7 @@ router.get('/getAllPosts', getAllPosts)
 router.get('/', basiccontroller);
 router.delete('/delete_post',deletePost)
 router.post("/comment",commentPost)
-router.get("/get_comments",get_comment_by_post)
+router.post("/get_comments",get_comment_by_post)
 router.delete("/delete_comment",delete_comment)
 router.post("/increment_post_like",increment_likes)
 module.exports = router
