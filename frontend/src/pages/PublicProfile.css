@@ -1,0 +1,107 @@
+.profile-actions {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.connect-button,
+.download-button {
+  padding: 10px 20px;
+  background: linear-gradient(45deg, #ff3399, #0000ff);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.connect-button:hover,
+.download-button:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+.recent-activities-heading {
+  margin-top: 40px;
+  font-size: 1.4rem;
+  color: #333;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 5px;
+}
+
+/* Posts Section */
+.allposts-container {
+  margin-top: 20px;
+}
+
+.post-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.post-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.post-user img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.post-user p {
+  margin: 0;
+  font-weight: 600;
+}
+
+.post-body {
+  margin: 10px 0;
+  font-size: 1rem;
+  color: #333;
+}
+
+.post-media {
+  margin: 10px 0;
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.post-image {
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+.post-video {
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+.post-file-link {
+  display: inline-block;
+  margin-top: 10px;
+  color: #007bff;
+  text-decoration: underline;
+}
+
+.post-file-link:hover {
+  text-decoration: none;
+}
+
+.timestamp {
+  font-size: 0.85rem;
+  color: #777;
+  margin-top: 8px;
+}

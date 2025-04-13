@@ -125,6 +125,21 @@ const getAllUsers = async (req, res) => {
         return res.status(500).json({ message: "Internal server error" });
     }
 };
+const getProfileById = async (req, res) => {
+    const { userId } = req.body;
+  
+    try {
+      const user = await User.findById(userId).select("-password");
+      if (!user) return res.status(404).json({ msg: "User not found" });
+  
+      const profile = await Profile.findOne({ userId });
+      return res.status(200).json({ user, profile });
+    } catch (error) {
+      console.error("Error fetching profile by ID:", error);
+      return res.status(500).json({ msg: "Server error", error });
+    }
+  };
+  
 const updateUser = async (req, res) => {
     try {
         const {token , name, username, email } = req.body;
@@ -326,4 +341,4 @@ const acceptConnectionRequest=async(req,res)=>{
         return res.status(500).json({ message: "Internal server error" });
     }
 }
-module.exports = { register , login , updateProfilePicture , getUser , getProfile , getAllUsers , updateUser , updateUserProfile , downloadProfile , sendConnectionRequest , getMyConnectionRequests , whatAreMyConnections , acceptConnectionRequest};
+module.exports = { register , login , updateProfilePicture , getUser , getProfile , getProfileById , getAllUsers , updateUser , updateUserProfile , downloadProfile , sendConnectionRequest , getMyConnectionRequests , whatAreMyConnections , acceptConnectionRequest};

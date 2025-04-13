@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { basiccontroller , createPost , getAllPosts , deletePost , commentPost , delete_comment , get_comment_by_post , increment_likes} = require('../controllers/posts.controller.js');
+const { basiccontroller , createPost , getAllPosts , deletePost , commentPost , delete_comment , get_comment_by_post , increment_likes , getUserPosts} = require('../controllers/posts.controller.js');
 const multer = require("multer");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const cloudinary = require('cloudinary').v2;
@@ -20,4 +20,5 @@ router.post("/comment",commentPost)
 router.post("/get_comments",get_comment_by_post)
 router.delete("/delete_comment",delete_comment)
 router.post("/increment_post_like",increment_likes)
+router.post("/get_user_posts", getUserPosts);
 module.exports = router

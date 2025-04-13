@@ -13,12 +13,12 @@ const Sidebar = () => {
           </Link>
         </li>
         <li>
-          <Link to="/discover">
+          <Link to="/dashboard/discover">
             <FaSearch className="icon" /> Discover
           </Link>
         </li>
         <li>
-          <Link to="/connections">
+          <Link to="/">
             <FaUsers className="icon" /> My Connections
           </Link>
         </li>

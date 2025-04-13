@@ -152,4 +152,19 @@ const increment_likes=async(req,res)=>{
         return res.status(500).json({ message: "Internal server error" });
     }
 }
-module.exports = { basiccontroller, createPost , getAllPosts , deletePost , get_comment_by_post , commentPost , delete_comment , increment_likes};
+const getUserPosts = async (req, res) => {
+    const { userId } = req.body;
+  
+    try {
+      if (!userId) return res.status(400).json({ message: "User ID is required" });
+  
+      const posts = await Post.find({ userId }).sort({ createdAt: -1 });
+  
+      res.json({ posts });
+    } catch (err) {
+      console.error("Error fetching user posts:", err);
+      res.status(500).json({ message: "Failed to fetch posts" });
+    }
+  };
+  
+module.exports = { basiccontroller, createPost , getAllPosts , deletePost , get_comment_by_post , commentPost , delete_comment , increment_likes , getUserPosts};

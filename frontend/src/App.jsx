@@ -5,6 +5,8 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Allposts from "./components/Allposts";
 import Profile from "./pages/Profile";
+import Discover from "./pages/Discover";
+import PublicProfile from "./pages/PublicProfile";
 
 const ProtectedRoute = ({ element }) => {
   const token = localStorage.getItem("token");
@@ -20,15 +22,19 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Public Routes (Redirect to Dashboard if logged in) */}
+        {/* Public Routes */}
         <Route path="/" element={<PublicRoute element={<Home />} />} />
         <Route path="/register" element={<PublicRoute element={<Register />} />} />
         <Route path="/login" element={<PublicRoute element={<Login />} />} />
 
-        {/* Protected Route for Dashboard (Only logged-in users can access) */}
+        {/* Protected Dashboard Routes */}
         <Route path="/dashboard" element={<ProtectedRoute element={<Dashboard />} />}>
           <Route index element={<Allposts />} />
-          <Route path="profile" element={<Profile/>} /> 
+          <Route path="profile" element={<Profile />} />
+
+          {/* Nested under /dashboard/discover */}
+          <Route path="discover" element={<Discover />} />
+          <Route path="discover/user-profile/:userId" element={<PublicProfile />} />
         </Route>
       </Routes>
     </Router>

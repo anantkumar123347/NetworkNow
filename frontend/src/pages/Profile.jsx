@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./Profile.css";
 import { FaPen } from "react-icons/fa";
-
+import './PublicProfile.css'
 function Profile() {
   const [profile, setProfile] = useState(null);
   const [user, setUser] = useState(null);
+  const [userPosts, setUserPosts] = useState([]);
+
   const [showUserForm, setShowUserForm] = useState(false);
   const [showProfileForm, setShowProfileForm] = useState(false);
 
@@ -38,6 +40,16 @@ function Profile() {
         pastWork: data.profile.pastWork || [],
         education: data.profile.education || [],
       });
+      const postRes = await fetch("http://localhost:5000/posts/get_user_posts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: data.user._id }),
+      });
+
+      const postData = await postRes.json();
+      if (postRes.ok) {
+        setUserPosts(postData.posts);
+      }
     };
 
     fetchProfile();
@@ -67,19 +79,11 @@ function Profile() {
 
     const res = await fetch("http://localhost:5000/user/user_update", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: userForm.name,
-        username: userForm.username,
-        email: userForm.email,
-        token: token,
-      }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...userForm, token }),
     });
 
     const data = await res.json();
-
     if (res.ok) {
       setUser(data.updatedUser);
       setShowUserForm(false);
@@ -259,7 +263,45 @@ function Profile() {
             <button onClick={handleProfileUpdate}>Submit</button>
           </div>
         )}
+     </div>
+     <div className="allposts-container">
+     <h3>Recent Activities</h3>
+  {userPosts.length > 0 ? (
+    userPosts.map((post) => (
+      <div key={post._id} className="post-card">
+        <div className="post-user">
+          <img src={user.profilePicture} alt={user.name} />
+          <p><strong>{user.name}</strong></p>
+        </div>
+        <hr />
+        <p className="post-body">{post.body}</p>
+        {post.media && (
+          <div className="post-media">
+            {post.fileType?.startsWith("image") ? (
+              <img src={post.media} alt="Post" className="post-image" />
+            ) : post.fileType?.startsWith("video") ? (
+              <video controls className="post-video">
+                <source src={post.media} type={post.fileType} />
+                Your browser does not support the video tag.
+              </video>
+            ) : (
+              <a href={post.media} target="_blank" rel="noopener noreferrer" className="post-file-link">
+                View File
+              </a>
+            )}
+          </div>
+        )}
+        <p className="timestamp">
+          Posted on: {new Date(post.createdAt).toLocaleString()}
+        </p>
       </div>
+    ))
+  ) : (
+    <p>No recent activities.</p>
+  )}
+</div>
+
+
     </div>
   );
 }
