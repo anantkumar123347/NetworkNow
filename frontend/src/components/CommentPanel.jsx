@@ -18,7 +18,7 @@ export default function CommentPanel({ postId, onClose }) {
   const fetchComments = async () => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5000/posts/get_comments", {
+      const res = await fetch("https://networknow-1.onrender.com/posts/get_comments", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ post_id: postId }),
@@ -37,7 +37,7 @@ export default function CommentPanel({ postId, onClose }) {
     if (!commentBody.trim()) return;
 
     try {
-      const res = await fetch("http://localhost:5000/posts/comment", {
+      const res = await fetch("https://networknow-1.onrender.com/posts/comment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

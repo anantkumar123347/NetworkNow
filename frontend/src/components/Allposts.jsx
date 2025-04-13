@@ -10,7 +10,7 @@ function Allposts() {
 
   const fetchPosts = async () => {
     try {
-      const response = await fetch("http://localhost:5000/posts/getAllPosts");
+      const response = await fetch("https://networknow-1.onrender.com/posts/getAllPosts");
       const data = await response.json();
       setPosts(data.posts);
     } catch (error) {
@@ -24,7 +24,7 @@ function Allposts() {
 
   const increaseLike = async (postId) => {
     try {
-      const response = await fetch("http://localhost:5000/posts/increment_post_like", {
+      const response = await fetch("https://networknow-1.onrender.com/posts/increment_post_like", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ post_id: postId }),

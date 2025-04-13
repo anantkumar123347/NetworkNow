@@ -9,7 +9,7 @@ function Discover() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await fetch("http://localhost:5000/user/get_all_users");
+        const res = await fetch("https://networknow-1.onrender.com/user/get_all_users");
         const data = await res.json();
         setUsers(data);
       } catch (error) {
@@ -28,7 +28,7 @@ function Discover() {
           <div
             key={user._id}
             className="user-card"
-            onClick={() => navigate(`user-profile/${user._id}`)} // ✅ fixed this line
+            onClick={() => navigate(`user-profile/${user._id}`)}
           >
             <img
               src={user.profilePicture}

@@ -9,7 +9,7 @@ const RightSidebar = () => {
   useEffect(() => {
     const fetchProfiles = async () => {
       try {
-        const response = await fetch("http://localhost:5000/user/get_all_users");
+        const response = await fetch("https://networknow-1.onrender.com/user/get_all_users");
         const data = await response.json();
         setUsers(data);
       } catch (error) {

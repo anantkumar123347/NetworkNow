@@ -8,12 +8,12 @@ function PublicProfile() {
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
   const [posts, setPosts] = useState([]);
-  const [connectionStatus, setConnectionStatus] = useState("Connect"); // Connect | Sent | Connected
+  const [connectionStatus, setConnectionStatus] = useState("Connect");
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await fetch("http://localhost:5000/user/get_profile_by_id", {
+        const res = await fetch("https://networknow-1.onrender.com/user/get_profile_by_id", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ userId }),
@@ -34,7 +34,7 @@ function PublicProfile() {
 
     const fetchUserPosts = async () => {
       try {
-        const res = await fetch("http://localhost:5000/posts/get_user_posts", {
+        const res = await fetch("https://networknow-1.onrender.com/posts/get_user_posts", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ userId }),
@@ -54,7 +54,7 @@ function PublicProfile() {
 
     const checkConnectionRequest = async () => {
       try {
-        const res = await fetch("http://localhost:5000/user/request_already_sent", {
+        const res = await fetch("https://networknow-1.onrender.com/user/request_already_sent", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -86,7 +86,7 @@ function PublicProfile() {
 
   const handleResumeDownload = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/user/download_profile/${userId}`, {
+      const response = await fetch(`https://networknow-1.onrender.com/user/download_profile/${userId}`, {
         method: "GET",
       });
 
@@ -113,7 +113,7 @@ function PublicProfile() {
     if (connectionStatus !== "Connect") return;
   
     try {
-      const res = await fetch("http://localhost:5000/user/send_connection_request", {
+      const res = await fetch("https://networknow-1.onrender.com/user/send_connection_request", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token: localStorage.getItem("token"), connectionId: userId }),

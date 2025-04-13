@@ -8,7 +8,7 @@ function MyConnections() {
 
   const fetchRequests = async () => {
     try {
-      const response = await fetch("http://localhost:5000/user/getConnectionRequests", {
+      const response = await fetch("https://networknow-1.onrender.com/user/getConnectionRequests", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -29,7 +29,7 @@ function MyConnections() {
 
   const fetchConnections = async () => {
     try {
-      const response = await fetch("http://localhost:5000/user/user_connection_request", {
+      const response = await fetch("https://networknow-1.onrender.com/user/user_connection_request", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -49,7 +49,7 @@ function MyConnections() {
 
   const handleAcceptRequest = async (requestId) => {
     try {
-      const response = await fetch("http://localhost:5000/user/accept_connection_request", {
+      const response = await fetch("https://networknow-1.onrender.com/user/accept_connection_request", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -74,7 +74,7 @@ function MyConnections() {
 
   const handleRejectRequest = async (requestId) => {
     try {
-      const response = await fetch("http://localhost:5000/user/accept_connection_request", {
+      const response = await fetch("https://networknow-1.onrender.com/user/accept_connection_request", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

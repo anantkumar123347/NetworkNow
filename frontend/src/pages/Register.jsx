@@ -15,7 +15,7 @@ function Register() {
     e.preventDefault();
     const formData = { username, name, email, password };
 
-    fetch('http://localhost:5000/user/register', {
+    fetch('https://networknow-1.onrender.com/user/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),

@@ -24,7 +24,7 @@ function Profile() {
   useEffect(() => {
     const fetchProfile = async () => {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:5000/user/getProfile", {
+      const res = await fetch("https://networknow-1.onrender.com/user/getProfile", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token }),
@@ -40,7 +40,7 @@ function Profile() {
         pastWork: data.profile.pastWork || [],
         education: data.profile.education || [],
       });
-      const postRes = await fetch("http://localhost:5000/posts/get_user_posts", {
+      const postRes = await fetch("https://networknow-1.onrender.com/posts/get_user_posts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId: data.user._id }),
@@ -63,7 +63,7 @@ function Profile() {
     formData.append("image", imageFile);
     formData.append("token", localStorage.getItem("token"));
 
-    const res = await fetch("http://localhost:5000/user/update_profile_picture", {
+    const res = await fetch("https://networknow-1.onrender.com/user/update_profile_picture", {
       method: "POST",
       body: formData,
     });
@@ -77,7 +77,7 @@ function Profile() {
   const handleUserUpdate = async () => {
     const token = localStorage.getItem("token");
 
-    const res = await fetch("http://localhost:5000/user/user_update", {
+    const res = await fetch("https://networknow-1.onrender.com/user/user_update", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...userForm, token }),
@@ -94,7 +94,7 @@ function Profile() {
 
   const handleProfileUpdate = async () => {
     const token = localStorage.getItem("token");
-    const res = await fetch("http://localhost:5000/user/update_profile_data", {
+    const res = await fetch("https://networknow-1.onrender.com/user/update_profile_data", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...profileForm, token }),

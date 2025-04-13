@@ -13,7 +13,7 @@ function Login() {
     e.preventDefault();
     const formData = { email, password };
   
-    fetch('http://localhost:5000/user/login', {
+    fetch('https://networknow-1.onrender.com/user/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),
