@@ -1,0 +1,99 @@
+.connections-wrapper {
+  width: 80%;
+  margin: 0 auto;
+  padding-top: 10vh;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.request-list {
+  margin-bottom: 40px;
+}
+
+.request-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f9f9f9;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.request-details {
+  flex-grow: 1;
+}
+
+.request-details h3 {
+  font-size: 18px;
+  color: #333;
+}
+
+.request-details p {
+  font-size: 14px;
+  color: #777;
+}
+
+.request-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.accept-btn,
+.reject-btn {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.accept-btn {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.reject-btn {
+  background-color: #f44336;
+  color: white;
+}
+
+.connection-list {
+  margin-top: 20px;
+}
+
+.connection-item {
+  display: flex;
+  align-items: center;
+  background-color: #e9f7fc;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.connection-details {
+  flex-grow: 1;
+}
+
+.connection-details h3 {
+  font-size: 18px;
+  color: #333;
+}
+
+.connection-details p {
+  font-size: 14px;
+  color: #555;
+}
+
+.profile-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 15px;
+}

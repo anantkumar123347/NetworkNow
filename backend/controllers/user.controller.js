@@ -300,7 +300,7 @@ const getMyConnectionRequests = async (req, res) => {
         const { token } = req.body;
         const user = await User.findOne({ token });
         if (!user) return res.status(404).json({ message: "User not found" });
-        const requests = await Connection.find({ userId: user._id }).populate("connectionId", "name username email profilePicture");
+        const requests = await Connection.find({ connectionId: user._id , status_accepted:null}).populate("userId", "name username email profilePicture");
         return res.status(200).json(requests);
     } catch (error) {
         return res.status(500).json({ message: "Internal server error" });
@@ -311,7 +311,7 @@ const whatAreMyConnections=async (req,res)=>{
         const { token } = req.body;
         const user = await User.findOne({ token });
         if (!user) return res.status(404).json({ message: "User not found" });
-        const requests = await Connection.find({ connectionId: user._id }).populate("userId", "name username email profilePicture");
+        const requests = await Connection.find({ connectionId: user._id , status_accepted: true }).populate("userId", "name username email profilePicture");
         return res.status(200).json(requests);
     } catch (error) {
         return res.status(500).json({ message: "Internal server error" });
@@ -341,4 +341,30 @@ const acceptConnectionRequest=async(req,res)=>{
         return res.status(500).json({ message: "Internal server error" });
     }
 }
-module.exports = { register , login , updateProfilePicture , getUser , getProfile , getProfileById , getAllUsers , updateUser , updateUserProfile , downloadProfile , sendConnectionRequest , getMyConnectionRequests , whatAreMyConnections , acceptConnectionRequest};
+const requestalreadysent = async (req, res) => {
+    try {
+      const { token, reciever } = req.body;
+      const sender = await User.findOne({ token });
+      if (!sender) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      const existingRequest = await Connection.findOne({
+        userId: sender._id,
+        connectionId: reciever,
+      });
+  
+      if (existingRequest) {
+        return res.status(200).json({
+          sent: true,
+          accepted: existingRequest.status_accepted === true,
+        });
+      }
+  
+      return res.status(200).json({ sent: false });
+    } catch (error) {
+      console.error("Error checking if request is already sent:", error);
+      return res.status(500).json({ message: "Internal server error" });
+    }
+  };
+  
+module.exports = { register , login , updateProfilePicture , getUser , getProfile , getProfileById , getAllUsers , updateUser , updateUserProfile , downloadProfile , sendConnectionRequest , getMyConnectionRequests , whatAreMyConnections , acceptConnectionRequest , requestalreadysent};

@@ -8,6 +8,7 @@ function PublicProfile() {
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
   const [posts, setPosts] = useState([]);
+  const [connectionStatus, setConnectionStatus] = useState("Connect"); // Connect | Sent | Connected
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -51,8 +52,36 @@ function PublicProfile() {
       }
     };
 
+    const checkConnectionRequest = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/user/request_already_sent", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            token: localStorage.getItem("token"),
+            reciever: userId,
+          }),
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          if (data.sent) {
+            setConnectionStatus(data.accepted ? "Connected" : "Sent");
+          } else {
+            setConnectionStatus("Connect");
+          }
+        } else {
+          console.error("Error checking request status:", data.message);
+        }
+      } catch (err) {
+        console.error("Error checking connection:", err);
+      }
+    };
+
     fetchProfile();
     fetchUserPosts();
+    checkConnectionRequest();
   }, [userId]);
 
   const handleResumeDownload = async () => {
@@ -80,6 +109,30 @@ function PublicProfile() {
     }
   };
 
+  const sendRequest = async () => {
+    if (connectionStatus !== "Connect") return;
+  
+    try {
+      const res = await fetch("http://localhost:5000/user/send_connection_request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: localStorage.getItem("token"), connectionId: userId }),
+      });
+  
+      const data = await res.json();
+  
+      if (res.ok) {
+        setConnectionStatus("Sent");
+      } else {
+        console.error("Error:", data.message);
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error("Error sending connection request:", error);
+    }
+  };
+  
+
   if (!user || !profile) return <div>Loading...</div>;
 
   return (
@@ -106,7 +159,7 @@ function PublicProfile() {
         {profile.pastWork?.length > 0 ? (
           profile.pastWork.map((work, idx) => (
             <p key={idx}>
-              <strong>{work.company}</strong> - {work.postion}, {work.years}
+              <strong>{work.company}</strong> - {work.position}, {work.years}
             </p>
           ))
         ) : (
@@ -125,51 +178,57 @@ function PublicProfile() {
         )}
 
         <div className="profile-actions">
-          <button className="connect-button">Connect</button>
+          <button
+            className="connect-button"
+            onClick={sendRequest}
+            disabled={connectionStatus !== "Connect"}
+          >
+            {connectionStatus}
+          </button>
           <button className="download-button" onClick={handleResumeDownload}>
             Download Resume
           </button>
         </div>
+
         <br />
         <br />
         <hr />
         <br />
         <br />
         <h3>Recent Activities</h3>
-<div className="allposts-container">
-  {posts.length > 0 ? (
-    posts.map((post) => (
-      <div key={post._id} className="post-card">
-        <div className="post-user">
-          <img src={user.profilePicture} alt={user.name} />
-          <p><strong>{user.name}</strong></p>
+        <div className="allposts-container">
+          {posts.length > 0 ? (
+            posts.map((post) => (
+              <div key={post._id} className="post-card">
+                <div className="post-user">
+                  <img src={user.profilePicture} alt={user.name} />
+                  <p><strong>{user.name}</strong></p>
+                </div>
+                <hr />
+                <p className="post-body">{post.body}</p>
+                {post.media && (
+                  <div className="post-media">
+                    {post.fileType?.startsWith("image") ? (
+                      <img src={post.media} alt="Post Media" className="post-image" />
+                    ) : post.fileType?.startsWith("video") ? (
+                      <video controls className="post-video">
+                        <source src={post.media} type={post.fileType} />
+                        Your browser does not support the video tag.
+                      </video>
+                    ) : (
+                      <a href={post.media} target="_blank" rel="noopener noreferrer" className="post-file-link">
+                        View Attached File
+                      </a>
+                    )}
+                  </div>
+                )}
+                <p className="timestamp">Posted on: {new Date(post.createdAt).toLocaleString()}</p>
+              </div>
+            ))
+          ) : (
+            <p>No recent activities.</p>
+          )}
         </div>
-        <hr />
-        <p className="post-body">{post.body}</p>
-        {post.media && (
-          <div className="post-media">
-            {post.fileType?.startsWith("image") ? (
-              <img src={post.media} alt="Post Media" className="post-image" />
-            ) : post.fileType?.startsWith("video") ? (
-              <video controls className="post-video">
-                <source src={post.media} type={post.fileType} />
-                Your browser does not support the video tag.
-              </video>
-            ) : (
-              <a href={post.media} target="_blank" rel="noopener noreferrer" className="post-file-link">
-                View Attached File
-              </a>
-            )}
-          </div>
-        )}
-        <p className="timestamp">Posted on: {new Date(post.createdAt).toLocaleString()}</p>
-      </div>
-    ))
-  ) : (
-    <p>No recent activities.</p>
-  )}
-</div>
-
       </div>
     </div>
   );

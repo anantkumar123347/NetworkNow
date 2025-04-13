@@ -18,7 +18,7 @@ const Sidebar = () => {
           </Link>
         </li>
         <li>
-          <Link to="/">
+          <Link to="/dashboard/myconnections">
             <FaUsers className="icon" /> My Connections
           </Link>
         </li>
