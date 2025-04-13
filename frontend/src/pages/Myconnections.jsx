@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./MyConnections.css";
+import "./Myconnections.css";
 
 function MyConnections() {
   const [requests, setRequests] = useState([]);
